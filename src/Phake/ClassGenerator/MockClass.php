@@ -140,8 +140,11 @@ class Phake_ClassGenerator_MockClass
 
      * @return NULL
      */
-    public function generate($newClassName, $mockedClassName, Phake_Mock_InfoRegistry $infoRegistry)
+    public function generate($newClassName, $mockedClassName, Phake_Mock_InfoRegistry $infoRegistry, $defaultAnswer=null)
     {
+        if ($defaultAnswer == null) {
+            $defaultAnswer = new Phake_Stubber_Answers_NoAnswer();
+        }
         $extends    = '';
         $implements = '';
         $interfaces = array();
@@ -193,7 +196,7 @@ class {$newClassName} {$extends}
 ";
 
         $this->loader->loadClassByString($newClassName, $classDef);
-        $newClassName::$__PHAKE_staticInfo = $this->createMockInfo($mockedClassName, new Phake_CallRecorder_Recorder(), new Phake_Stubber_StubMapper(), new Phake_Stubber_Answers_NoAnswer());
+        $newClassName::$__PHAKE_staticInfo = $this->createMockInfo($mockedClassName, new Phake_CallRecorder_Recorder(), new Phake_Stubber_StubMapper(), $defaultAnswer);
         $infoRegistry->addInfo($newClassName::$__PHAKE_staticInfo);
     }
 
