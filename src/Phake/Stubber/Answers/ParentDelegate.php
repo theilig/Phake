@@ -89,12 +89,7 @@ class ParentDelegate implements \Phake\Stubber\IAnswer
             $reflMethod = $reflParent->getMethod($method);
 
             if (!$reflMethod->isAbstract()) {
-                if (defined('HHVM_VERSION')) {
-                    return ['parent', $method];
-                }
-
-
-                return new ParentDelegateCallback($context, $reflMethod);
+                return ['parent', $method];
             }
         } catch (\ReflectionException $e) {
         }
