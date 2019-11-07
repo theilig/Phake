@@ -93,7 +93,7 @@ class Phake_Facade
 
         if (!isset($this->cachedClasses[implode('__', $mockedClassList)])) {
             $newClassName = $this->generateUniqueClassName($mockedClassList);
-            $mockGenerator->generate($newClassName, $mockedClassList, $this->infoRegistry);
+            $mockGenerator->generate($newClassName, $mockedClassList, $this->infoRegistry, $defaultAnswer);
 
             $this->cachedClasses[implode('__', $mockedClassList)] = $newClassName;
         }
