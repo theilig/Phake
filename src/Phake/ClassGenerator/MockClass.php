@@ -87,11 +87,15 @@ class MockClass
      * @param class-string $newClassName - The name of the new class
      * @param class-string|array<class-string> $mockedClassName - The name of the class being mocked
      * @param \Phake\Mock\InfoRegistry $infoRegistry
+     * @param mixed|void $defaultAnswer
      *
      * @return void
      */
-    public function generate($newClassName, $mockedClassName, \Phake\Mock\InfoRegistry $infoRegistry)
+    public function generate($newClassName, $mockedClassName, Phake_Mock_InfoRegistry $infoRegistry, $defaultAnswer=null)
     {
+        if (is_null($defaultAnswer)) {
+            $defaultAnswer = new Phake_Stubber_Answers_NoAnswer();
+        }
         $extends    = '';
         $implements = '';
         $interfaces = [];
@@ -181,7 +185,7 @@ class {$newClassName} {$extends}
 ";
 
         $this->loadClass($newClassName, $mockedClassName, $classDef);
-        $newClassName::$__PHAKE_staticInfo = $this->createMockInfo($mockedClassName, new \Phake\CallRecorder\Recorder(), new \Phake\Stubber\StubMapper(), new \Phake\Stubber\Answers\NoAnswer());
+        $newClassName::$__PHAKE_staticInfo = $this->createMockInfo($mockedClassName, new \Phake\CallRecorder\Recorder(), new \Phake\Stubber\StubMapper(), $defaultAnswer);
         $infoRegistry->addInfo($newClassName::$__PHAKE_staticInfo);
     }
 
