@@ -81,14 +81,7 @@ class Phake_Stubber_Answers_ParentDelegate implements Phake_Stubber_IAnswer
 
             if (!$reflMethod->isAbstract())
             {
-                if (defined('HHVM_VERSION'))
-                {
-                    return array('parent', $method);
-                }
-                else
-                {
-                    return new Phake_Stubber_Answers_ParentDelegateCallback($context, $reflMethod);
-                }
+                return array('parent', $method);
             }
         }
         catch (ReflectionException $e)
