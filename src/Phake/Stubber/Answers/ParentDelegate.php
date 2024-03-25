@@ -89,7 +89,7 @@ class ParentDelegate implements \Phake\Stubber\IAnswer
             $reflMethod = $reflParent->getMethod($method);
 
             if (!$reflMethod->isAbstract()) {
-                return ['parent', $method];
+                return [$reflParent->getName(), $method];
             }
         } catch (\ReflectionException $e) {
         }
