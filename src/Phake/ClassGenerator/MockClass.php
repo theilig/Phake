@@ -420,6 +420,17 @@ class {$newClassName} {$extends}
             $attributes = '#[\ReturnTypeWillChange]';
         }
 
+        $parentCallback = trim("
+        else if (is_array(\$__PHAKE_callback) && \$__PHAKE_callback[0] === 'parent')
+	    {
+            \$__PHAKE_result = parent::{$method->getName()}(...\$__PHAKE_args);
+	    }
+	    ");
+        if ($method->getDeclaringClass()->isInterface()) {
+            // Interface methods cannot reference parent::, so don't generate code
+            $parentCallback = '';
+        }
+
         $docComment = $method->getDocComment() ?: '';
         $methodDef = "
 	{$docComment}
@@ -443,10 +454,7 @@ class {$newClassName} {$extends}
 	    {
     	    \$__PHAKE_result = \$__PHAKE_callback(\$__PHAKE_args);
 	    }
-	    else if (is_array(\$__PHAKE_callback) && \$__PHAKE_callback[0] === 'parent')
-	    {
-	    \$__PHAKE_result = parent::{$method->getName()}(...\$__PHAKE_args);
-	    }
+	    {$parentCallback}
 	    else
 	    {
     	    \$__PHAKE_result = call_user_func_array(\$__PHAKE_callback, \$__PHAKE_args);
