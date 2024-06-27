@@ -94,7 +94,7 @@ class MockClass
     public function generate($newClassName, $mockedClassName, \Phake\Mock\InfoRegistry $infoRegistry, $defaultAnswer=null)
     {
         if (is_null($defaultAnswer)) {
-            $defaultAnswer = new Phake_Stubber_Answers_NoAnswer();
+            $defaultAnswer = new \Phake\Stubber\Answers\NoAnswer();
         }
         $extends    = '';
         $implements = '';
